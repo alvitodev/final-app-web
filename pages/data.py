@@ -161,17 +161,3 @@ with st.expander("ℹ️ Informasi Dataset"):
     st.write(f"**Jumlah baris:** {len(df):,}")
     st.write(f"**Jumlah kolom:** {len(df.columns):,}")
     st.write(f"**Total duplikat:** {int(df.duplicated().sum()):,}")
-
-# ==================================================
-# UNDUH DATASET
-# ==================================================
-st.subheader("⬇️ Unduh Dataset")
-
-csv_data = df.to_csv(index=False).encode("utf-8-sig")
-
-st.download_button(
-    label="Unduh krl_clean.csv",
-    data=csv_data,
-    file_name="krl_clean.csv",
-    mime="text/csv"
-)
