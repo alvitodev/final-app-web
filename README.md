@@ -1,9 +1,12 @@
-# Final Project: Analisis Teks, Clustering & Analisis Sentimen Postingan X (Twitter) Kasus KRL
+# Final Project: Analisis Teks, Clustering, Regresi & Analisis Sentimen Postingan X (Twitter) Kasus KRL
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1paPq5ZOwojkOpMj9AlhIYBcWmelSCK-B?usp=sharing)
 
 **Mata Kuliah:** Praktik Aplikasi Web  
 **Kelas:** I2  
 **Kelompok:** 4  
-**Topik Kasus:** Tragedi & Isu Layanan KRL Commuter Line Bekasi Timur (April 2026)
+**Topik Kasus:** Tragedi & Isu Layanan KRL Commuter Line Bekasi Timur (April 2026)  
+**Notebook Google Colab:** [Buka Notebook di Google Colab](https://colab.research.google.com/drive/1paPq5ZOwojkOpMj9AlhIYBcWmelSCK-B?usp=sharing)
 
 ---
 
@@ -21,9 +24,14 @@
 
 ## 📌 Deskripsi Proyek
 
-Proyek ini bertujuan untuk menganalisis opini, respon publik, dan isu dominan di media sosial X (Twitter) terkait insiden dan dinamika layanan KRL Commuter Line di perlintasan Stasiun Bekasi Timur pada akhir April 2026. 
+Proyek ini bertujuan untuk menganalisis opini publik, respons netizen, dan klasterisasi isu di media sosial X (Twitter) terkait insiden dan dinamika layanan KRL Commuter Line di perlintasan Stasiun Bekasi Timur pada akhir April 2026. 
 
-Alur analisis menggabungkan teknik **Unsupervised Learning (K-Means Clustering)** untuk memetakan tema pembahasan publik dan **Sentiment Analysis** untuk menilai polaritas respon masyarakat (positif, netral, atau negatif) pada tiap kelompok isu.
+Alur analisis menggabungkan:
+1. **Unsupervised Learning (K-Means Clustering):** Memetakan 3 tema sentral pembahasan masyarakat.
+2. **Word Cloud & Word Count per Cluster:** Visualisasi topik dominan per tema berdasarkan saran dosen pembimbing.
+3. **Regresi Linier:** Eksperimen prediksi likes (*favorite count*) berdasarkan karakteristik panjang teks dan jumlah hashtag.
+4. **Sentiment Analysis:** Mengukur proporsi sentimen (Positif, Netral, Negatif) pada tiap kelompok klaster pembahasan.
+5. **Aplikasi Web Interaktif (Streamlit):** Dashboard eksplorasi data, hasil klasterisasi, regresi, dan sentimen secara visual.
 
 ---
 
@@ -46,6 +54,8 @@ Alur analisis menggabungkan teknik **Unsupervised Learning (K-Means Clustering)*
           ↓
 [Bagian 6: Tema, Word Cloud & Ekspor (Alvito)]  → Word Cloud per Tema (Saran Dosen)
           ↓
+[Modul Tambahan: Regresi Linier]  → Prediksi Likes vs Jumlah Kata & Hashtag
+          ↓
 [Bagian 7: Analisis Sentimen (Alvito)]  → Klasifikasi Polaritas (Positif, Netral, Negatif) per Cluster
 ```
 
@@ -57,28 +67,45 @@ Alur analisis menggabungkan teknik **Unsupervised Learning (K-Means Clustering)*
 Berdasarkan pembobotan TF-IDF dan K-Means, diperoleh 3 tema sentral:
 * **Cluster 0 (60.55% | 502 tweet):** *Respons Kebijakan & Informasi Operasional KRL*
   * Kata Kunci Dominan: `kereta`, `taksi`, `cikarang`, `anggrek`, `sm`, `sopir`, `polisi`, `pmi`
-  * Fokus: Pemberitaan kronologi taksi Bluebird/SM yang tertemper, tindakan kepolisian, respon Dishub, dan apresiasi relawan PMI oleh Pak JK.
+  * Fokus: Kronologi tertempernya taksi di perlintasan, respons kepolisian/Dishub, dan apresiasi relawan PMI oleh Pak JK.
 * **Cluster 1 (32.81% | 272 tweet):** *Keterlambatan, Gangguan Jalur & Keluhan Penumpang*
   * Kata Kunci Dominan: `korban`, `meninggal`, `anggrek`, `keluarga`, `luka`, `duka`, `bunga`, `pekerja`
-  * Fokus: Ungkapan belasungkawa warga/pekerja atas jatuhnya korban jiwa di Stasiun Bekasi Timur serta karangan bunga duka cita.
+  * Fokus: Ungkapan duka cita mendalam bagi korban jiwa di Stasiun Bekasi Timur serta aksi solidaritas karangan bunga.
 * **Cluster 2 (6.63% | 55 tweet):** *Insiden, Evakuasi & Dampak Perjalanan Stasiun*
   * Kata Kunci Dominan: `gerbong`, `wanita`, `perempuan`, `menteri`, `khusus`, `hancur`, `terhimpit`
-  * Fokus: Pembahasan kondisi gerbong khusus perempuan pasca tabrakan dan evaluasi keselamatan dari Kementerian Perhubungan.
+  * Fokus: Sorotan kondisi gerbong khusus wanita pasca insiden dan evaluasi keselamatan dari Kementerian Perhubungan.
 
 ### 2. Evaluasi Validitas Cluster
-* **Silhouette Score:** Evaluasi kohesi antar data teks percakapan Twitter.
-* **Stabilitas Pengelompokan (ARI):** Nilai konsistensi berkisar antara **0.818 s.d. 0.934** (mendekati 1.0) saat diuji dengan berbagai *random seed* berbeda, membuktikan cluster sangat stabil dan tidak acak.
+* **Silhouette Score:** Nilai pada teks Twitter bernilai $0.0148$ (khas matriks teks sparse berdimensi tinggi).
+* **Stabilitas Pengelompokan (ARI):** Nilai konsistensi berkisar antara **0.818 s.d. 0.934** (mendekati 1.0) saat diuji dengan berbagai *random seed*, membuktikan pengelompokan K-Means sangat stabil dan konsisten.
+
+### 3. Analisis Sentimen
+* Sentimen dominan pada percakapan seputar tragedi KRL didominasi oleh respons emosional negatif (duka, korban, kelalaian perlintasan) serta sentimen netral (pemberitaan/informasi jalur), dengan sebagian sentimen positif berfokus pada kesigapan evakuasi PMI dan solidaritas warga.
 
 ---
 
-## 🛠️ Petunjuk Menjalankan Notebook di Google Colab
+## 🛠️ Petunjuk Menjalankan
 
-1. **Buka Notebook:** Upload dan buka file `Kelompok_4_I2.ipynb` di [Google Colab](https://colab.research.google.com/).
-2. **Koneksi Runtime:** Pilih runtime Python 3 (CPU standar sudah cukup).
-3. **Eksekusi:**
-   * Jika ingin menjalankan dari awal (*fresh run*), jalankan cell secara berurutan dari atas ke bawah.
-   * **Tips Crawling:** Karena batasan *rate limit* gratisan dari Twitter/X, proses crawling akan mengumpulkan sekitar 860 tweet. Jika cell crawling berhenti atau muncul notifikasi *rate limit*, cukup klik tombol **Stop** pada cell tersebut dan langsung lanjutkan mengeksekusi cell berikutnya.
-   * Jika hanya ingin melihat visualisasi dan analisis sentimen, cukup gunakan file dataset bersih `hasil_clustering_krl_clean_1000.csv` yang sudah disediakan di repositori.
+### A. Menjalankan Notebook di Google Colab
+Notebook lengkap yang sudah tervalidasi dapat langsung diakses dan dijalankan melalui tautan resmi Google Colab berikut:
+👉 **[Buka di Google Colab](https://colab.research.google.com/drive/1paPq5ZOwojkOpMj9AlhIYBcWmelSCK-B?usp=sharing)**
+
+1. Klik tombol **Open in Colab** di atas.
+2. Gunakan runtime Python 3 (CPU standar).
+3. Anda dapat langsung menjalankan seluruh sel secara berurutan. Jika runtime baru dibuka dan ingin langsung menganalisis sentimen/clustering tanpa mengulang crawling, cukup gunakan dataset `hasil_clustering_krl_clean_1000.csv` yang otomatis tersedia di repositori ini.
+
+### B. Menjalankan Aplikasi Web (Streamlit Dashboard)
+Untuk menjalankan dashboard interaktif berbasis Streamlit secara lokal:
+
+```bash
+# 1. Install dependensi
+pip install -r requirements.txt
+
+# 2. Jalankan aplikasi web
+streamlit run app.py
+```
+
+Dashboard akan otomatis terbuka di browser pada alamat `http://localhost:8501`.
 
 ---
 
@@ -87,14 +114,26 @@ Berdasarkan pembobotan TF-IDF dan K-Means, diperoleh 3 tema sentral:
 ```
 final-project/
 │
-├── Kelompok_4_I2.ipynb               # Notebook utama (Crawling, Clustering, Regresi & Sentimen)
-├── hasil_clustering_krl_clean_1000.csv# Dataset bersih berlabel cluster (829 tweet)
-├── ringkasan_cluster_krl.csv         # Ringkasan persentase dan kata dominan tiap cluster
-├── krl_tweets_1000.csv               # Data mentah hasil crawling tweet-harvest
-├── Proposal Aplikasi Web...pdf       # Dokumen proposal final project kelompok
-└── README.md                         # Dokumentasi teknis proyek
+├── pages/                                # Halaman Dashboard Streamlit
+│   ├── clustering.py                     # Visualisasi K-Means, PCA & Word Cloud
+│   ├── data.py                           # Pratinjau dataset & ringkasan
+│   ├── regresi.py                        # Model prediksi likes postingan
+│   └── sentimen.py                       # Visualisasi analisis sentimen
+├── app.py                                # Entry point aplikasi web Streamlit
+├── common.py                             # Fungsi utilitas pemrosesan data & kamus
+├── requirements.txt                      # Dependensi pustaka Python
+├── stopwords_krl.txt                     # Daftar stopwords khusus
+├── model_regresi_likes.pkl               # Model Regresi Linier terlatih
+│
+├── Kelompok_4_I2.ipynb                   # Notebook UTAMA lengkap (Crawling s.d. Analisis Sentimen)
+├── hasil_analisis_sentimen_krl.csv       # Dataset final berlabel cluster & sentimen (829 baris)
+├── hasil_clustering_krl_clean_1000.csv   # Dataset bersih berlabel cluster (829 baris)
+├── krl_clean.csv                         # Dataset bersih untuk aplikasi web
+├── krl_tweets_1000.csv                   # Data mentah crawling tweet-harvest
+├── ringkasan_cluster_krl.csv             # Ringkasan persentase dan kata dominan tiap cluster
+├── Proposal Aplikasi Web...pdf           # Dokumen proposal final project kelompok
+└── README.md                             # Dokumentasi teknis proyek
 ```
 
 ---
 *Dibuat untuk memenuhi tugas Final Project Praktik Aplikasi Web Kelas I2 - 2026.*
-
