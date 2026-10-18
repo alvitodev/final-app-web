@@ -11,9 +11,8 @@ from wordcloud import WordCloud
 
 DATASET_FILE = "krl_clean.csv"
 STOPWORDS_FILE = "stopwords_krl.txt"
-WARNA = ["Blues", "Oranges", "Greens"]   # satu warna word cloud untuk tiap cluster
+WARNA = ["Blues", "Oranges", "Greens"]   
 
-# Nama tema ditentukan setelah membaca kata dominan dan contoh postingan.
 TEMA = {
     0: "Kronologi Kecelakaan dan Peran Taksi di Perlintasan",
     1: "Korban Jiwa, Perawatan, dan Ungkapan Duka",
@@ -71,7 +70,7 @@ def hitung(path_csv, path_sw):
         idx = np.where(df["cluster"] == k)[0]
         pusat = np.asarray(X[idx].mean(axis=0)).ravel()            # rata-rata TF-IDF anggota cluster
         dominan = kata[pusat.argsort()[::-1][:5]]                   # 5 kata berbobot tertinggi
-        dekat = np.asarray(X[idx].dot(pusat)).ravel().argsort()[::-1][:3]   # 3 postingan terdekat ke pusat
+        dekat = np.asarray(X[idx].dot(pusat)).ravel().argsort()[::-1][:3]  
         teks = " ".join(df.loc[idx, "clean_text"])
         hasil[int(k)] = {
             "jumlah": len(idx),
